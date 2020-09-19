@@ -1,0 +1,12 @@
+== beaver icons ==
+pink FFB7B2
+blue 74BFE7
+green 85FF9E
+yellow F4D67B
+
+== map ==
+lt purple C3B6F6
+dk purple 917AF0
+blue 81BEF7
+green A8CA99
+gray EAEAEA
