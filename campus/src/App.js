@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import CampusMap from "./CampusMap";
+import "./App.scss";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="title">
+        <h1>
+          Camp<span>US</span>
+        </h1>
+        <p>Stay connected with your alma mater</p>
+      </div>
+
+      <div className="container">
+        <div id="map">
+          <CampusMap />
+        </div>
+        <div id="stories">
+          <h2>View stories here</h2>
+        </div>
+      </div>
     </div>
   );
 }
