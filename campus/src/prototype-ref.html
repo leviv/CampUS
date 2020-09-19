@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CampUS Map</title>
+
+    <style type="text/css">
+        /* Set a size for our map container, the Google Map will take up 100% of this container */
+        #map {
+            width: 800px;
+            height: 500px;
+        }
+    </style>
+
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrZB_vy3a2H9X7wg7WmyjJivCeEaMGK1w"></script>
+
+    <script type="text/javascript">
+        // When the window has finished loading create our google map below
+        google.maps.event.addDomListener(window, 'load', init);
+        var googlemap;
+        const beaverIcon = '../public/assets/pinkBeaver.png';
+
+        function init() {
+            // Basic options for a simple Google Map
+            // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+            var mapOptions = {
+                // How zoomed in you want the map to start at (always required)
+                zoom: 17,
+
+                // The latitude and longitude to center the map (always required)
+                center: new google.maps.LatLng(42.35898, -71.093489), // MIT
+
+                // How you would like to style the map. 
+                // This is where you would paste any style found on Snazzy Maps.
+                styles: [
+                    {
+                        "elementType": "labels",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            },
+                            {
+                                "color": "#a592f2"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "landscape",
+                        "stylers": [
+                            {
+                                "color": "#a592f2"
+                            },
+                            {
+                                "lightness": -7
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road",
+                        "stylers": [
+                            {
+                                "color": "#e6e6e6"
+                            },
+                            {
+                                "lightness": 43
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi.business",
+                        "stylers": [
+                            {
+                                "color": "#a592f2"
+                            },
+                            {
+                                "lightness": -7
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "water",
+                        "stylers": [
+                            {
+                                "color": "#81BEF7"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.local",
+                        "elementType": "geometry.fill",
+                        "stylers": [
+                            {
+                                "color": "#e6e6e6"
+                            },
+                            {
+                                "weight": 1.3
+                            },
+                            {
+                                "visibility": "on"
+                            },
+                            {
+                                "lightness": 16
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road",
+                        "elementType": "geometry.fill",
+                        "stylers": [
+                            {
+                                "color": "#e6e6e6"
+                            },
+                            {
+                                "visibility": "on"
+                            },
+                            {
+                                "lightness": 16
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi.park",
+                        "stylers": [
+                            {
+                                "color": "#7FB069"
+                            },
+                            {
+                                "lightness": 32
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi.school",
+                        "stylers": [
+                            {
+                                "color": "#C3B6F6"
+                            },
+                        ]
+                    },
+                    {
+                        "featureType": "poi.medical",
+                        "elementType": "geometry.fill",
+                        "stylers": [
+                            {
+                                "color": "#a592f2"
+                            },
+                            {
+                                "lightness": -7
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi.sports_complex",
+                        "stylers": [
+                            {
+                                "color": "#7FB069"
+                            },
+                            {
+                                "lightness": 32
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi.government",
+                        "stylers": [
+                            {
+                                "color": "#a592f2"
+                            },
+                            {
+                                "lightness": -7
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.local",
+                        "elementType": "geometry.stroke",
+                        "stylers": [
+                            {
+                                "color": "#e6e6e6"
+                            },
+                            {
+                                "lightness": -10
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            // Get the HTML DOM element that will contain your map 
+            // We are using a div with id="map" seen below in the <body>
+            var mapElement = document.getElementById('map');
+
+            // Create the Google Map using our element and options defined above
+            var map = new google.maps.Map(mapElement, mapOptions);
+            googlemap = map;
+
+            // canned memories
+            var memories = {
+                1: {
+                    location: { lat: 42.358742, lng: -71.091483 },
+                    title: 'playing frisbee on Killian',
+                    description: 'When the weather sunny is warm (>60F lol), I like to play some frisbee on Killian between classes.'
+                },
+                2: {
+                    location: { lat: 42.357241, lng: -71.094453 },
+                    title: '1st all-nighter',
+                    description: 'I pulled my first all-nighter in McCormick Hall while working on a project for HackMIT 2019. Totally worth it PLUS I got to see the sun rise over Boston!',
+                    date: '9/15/2019',
+                    image: './all-nighter.JPG'
+                },
+            };
+
+            // Construct the marker for each value in memories.
+            for (var memory in memories) {
+                // construct marker
+                var marker = new google.maps.Marker({
+                    position: memories[memory].location,
+                    animation: google.maps.Animation.DROP,
+                    map: map,
+                    title: memories[memory].center,
+                    icon: beaverIcon
+                });
+                // add description popup
+                var contentString = '<div id="content">' +
+                    '<div id="siteNotice">' +
+                    '</div>' +
+                    '<h1 id="firstHeading" class="firstHeading">' + memories[memory].title + '</h1>' +
+                    '<div id="bodyContent">' +
+                    '<p>' + memories[memory].description + '</p>' +
+                    '</div>' +
+                    '</div>';
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+                marker.addListener('click', function () {
+                    infowindow.open(map, marker);
+                });
+            }
+
+            // function toggleBounce() {
+            //     if (marker.getAnimation() !== null) {
+            //         marker.setAnimation(null);
+            //     } else {
+            //         marker.setAnimation(google.maps.Animation.BOUNCE);
+            //     }
+            // }
+
+
+            // population = capacity from https://mitguidetoresidences.mit.edu/housing-grid
+            var dorms = {
+                maseeh: {
+                    center: { lat: 42.35769, lng: -71.093489 },
+                    population: 500
+                },
+                mccormick: {
+                    center: { lat: 42.357241, lng: -71.094453 },
+                    population: 255
+                },
+                baker: {
+                    center: { lat: 42.356746, lng: -71.095614 },
+                    population: 325
+                },
+                bc: {
+                    center: { lat: 42.356001, lng: -71.098071 },
+                    population: 344
+                },
+                macgregor: {
+                    center: { lat: 42.355446, lng: -71.099541 },
+                    population: 313
+                },
+                new: {
+                    center: { lat: 42.355184, lng: -71.100626 },
+                    population: 290
+                },
+                next: {
+                    center: { lat: 42.354843, lng: -71.101887 },
+                    population: 368
+                },
+                simmons: {
+                    center: { lat: 42.357131, lng: -71.101507 },
+                    population: 369
+                },
+                newVassar: {
+                    center: { lat: 42.359013, lng: -71.097703 },
+                    population: 450
+                }
+            };
+
+            // Construct the circle for each value in dorms.
+            // Note: We scale the area of the circle based on the population.
+            for (var dorm in dorms) {
+                // Add the circle for this dorm to the map.
+                var cityCircle = new google.maps.Circle({
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 0.4,
+                    strokeWeight: 2,
+                    fillColor: '#FF0000',
+                    fillOpacity: 0.3,
+                    map: map,
+                    center: dorms[dorm].center,
+                    radius: Math.sqrt(dorms[dorm].population) * 2
+                });
+            }
+        }
+        
+        const createdMarkers = [];
+        var idx = 0;
+        let spawnPoint = { lat: 42.358387, lng: -71.093173 };
+
+        // construct map marker
+        function makeMarker(title) {
+            return new google.maps.Marker({
+                position: spawnPoint,
+                animation: google.maps.Animation.DROP,
+                map: googlemap,
+                title: title,
+                icon: beaverIcon,
+                draggable: true
+            });
+        }
+
+        function newMemory() {
+            googlemap.setCenter(spawnPoint);
+            let textbox = document.getElementById("textBox");
+            let newButton = document.getElementById("newButton");
+            let saveButton = document.getElementById("saveButton");
+            let dragMe = document.getElementById("dragMe");
+            let memTitle = textbox.value;
+            createdMarkers.push(makeMarker(memTitle));
+            newButton.disabled = true;
+            saveButton.disabled = false;
+            dragMe.style = "visibility:visible";
+        }
+
+        function saveMemory() {
+            let textbox = document.getElementById("textBox");
+            let newButton = document.getElementById("newButton");
+            let saveButton = document.getElementById("saveButton");
+            createdMarkers[idx].set("draggable", false);
+            idx += 1;
+            textbox.value = "Your Memory Title";
+            newButton.disabled = false;
+            saveButton.disabled = true;
+            dragMe.style = "visibility:hidden";
+        }
+    </script>
+</head>
+
+<body>
+    <h1>MIT CampUS Map</h1>
+    <br><br>
+    <input id="textBox" value="Your Memory Title"></input>
+    <button id="newButton" onclick=newMemory()>New Memory</button>
+    <button id="saveButton" onclick=saveMemory() disabled=true>Save Memory</button>
+    <div id="dragMe" style="visibility:hidden">Click to drag new memory!</div>
+    <br><br>
+
+    <!-- The element that will contain our Google Map. This is used in both the Javascript and CSS above. -->
+    <div id="map"></div>
+</body>
+
+</html>
