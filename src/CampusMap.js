@@ -8,7 +8,7 @@ import { setConstantValue } from "typescript";
 
 // Get a reference to the database service
 const database = db.ref();
-const memsRef = database.child('memories');
+const memsRef = database.child("memories");
 
 const CampusMap = () => {
   const initialCoord = { lat: 42.35898, lng: -71.093489 };
@@ -16,19 +16,29 @@ const CampusMap = () => {
   const [markers, setMarkers] = useState([]);
 
   async function getMemories() {
-    var mems = [];
-    memsRef.once("value", function (snapshot) {
-      snapshot.forEach(function (child) {
-        mems.push(child.val())
+    var markers = [];
+    memsRef
+      .once("value", function (snapshot) {
+        snapshot.forEach(function (child) {
+          let memory = child.val();
+          let coord = {
+            lat: parseFloat(memory["lat"]),
+            lng: parseFloat(memory["long"]),
+          };
+          markers.push(
+            <Marker position={coord} icon={pinkBeaver} draggable={true} />
+          );
+        });
+      })
+      .then(() => {
+        setMarkers(markers);
       });
-      console.log("get Memories" + mems)
-    }).then(makeMarkers(mems));
   }
 
   function getLatLongMemories(lat, long) {
     var mems = [];
-    memsRef.once("value", function(snapshot) {
-      snapshot.forEach(function(child) {
+    memsRef.once("value", function (snapshot) {
+      snapshot.forEach(function (child) {
         let mem = child.val();
         if (mem.lat === lat && mem.long === long) {
           mems.push(mem);
@@ -38,18 +48,10 @@ const CampusMap = () => {
     });
   }
 
-  function makeMarkers(memories) {
-    let markers = [];
-    for (var memory in memories) {
-      let coord = { lat: parseFloat(memory["lat"]), lng: parseFloat(memory["long"]) };
-      markers.push(<Marker position={coord} icon={pinkBeaver} draggable={true} />);
-      console.log("markers" + markers);
-    }
-    setMarkers(markers);
-  }
-
   // load memories and construct markers
-  useEffect(() => { getMemories();}, [initialCoord]);
+  useEffect(() => {
+    getMemories();
+  }, []);
 
   return (
     <GoogleMap
@@ -65,7 +67,8 @@ const CampusMap = () => {
       options={{ styles: mapStyles }}
     >
       {markers.map((marker, index) => (
-        { marker }))}
+        <>{marker}</>
+      ))}
     </GoogleMap>
   );
 };
@@ -76,10 +79,10 @@ Map.defaultProps = {
     width: "800px",
   },
   children: null,
-  onLoad: () => { },
-  onDragEndFunc: () => { },
-  onDragStartFunc: () => { },
-  onZoomChangeFunc: () => { },
+  onLoad: () => {},
+  onDragEndFunc: () => {},
+  onDragStartFunc: () => {},
+  onZoomChangeFunc: () => {},
 };
 
 export default CampusMap;
