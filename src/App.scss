@@ -1,0 +1,122 @@
+$primary-color: #917af0;
+$secondary-color: #a8ca99;
+$third-color: #fff;
+
+/* =================
+  General Styles
+  ================= */
+* {
+  font-family: "Vollkorn", serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $primary-color;
+  font-family: "Unica One", serif;
+  text-transform: uppercase;
+}
+
+button.button {
+  border-radius: 20px;
+  bottom: 0px;
+  font-family: "Unica One", serif;
+  font-size: 20px;
+  height: 40px;
+  margin: 3px 10px;
+  padding: 2px 20px;
+  position: relative;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  background: #fff;
+
+  &.button-primary {
+    border: 3px solid $primary-color;
+    color: $third-color;
+
+    &:hover {
+      background: $primary-color;
+      color: $secondary-color;
+    }
+  }
+
+  &.button-secondary {
+    border: 3px solid $secondary-color;
+    color: $third-color;
+
+    &:hover {
+      background: $secondary-color;
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    bottom: 2px;
+  }
+}
+
+.title {
+  background: #fff;
+  padding: 15px;
+  position: absolute;
+  z-index: 1;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 100vh;
+  width: 100%;
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+  }
+
+  #map {
+    flex: 2;
+    background: red;
+  }
+
+  #memories {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+
+    h2 {
+      text-align: center;
+    }
+  }
+}
+
+.card {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border-radius: 6px;
+  margin: 0 19px;
+  padding: 10px 20px;
+}
+
+#form {
+  input,
+  textarea {
+    display: block;
+    margin-bottom: 40px;
+    width: 100%;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  h1,
+  button {
+    text-align: center;
+  }
+}
