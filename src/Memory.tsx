@@ -1,5 +1,28 @@
 import React from "react";
 import { Formik, Field, Form } from "formik";
+import { db } from "./services/firebase";
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
+
+// Get a reference to the database service
+const database = db.ref();
+const memsRef = database.child('memories');
+
+// uploads image if needed, adds to comm list if needed, posts memory
+// latlong = string (maybe lat, long)
+function addMemory(title: any, desc: any, image: any, attr: any) {
+  var memKey = memsRef.push().key;
+  var memData = {
+    title: title,
+    description: desc,
+    image: image,
+    attribution: attr,
+  }
+
+  var updates = {};
+  updates['/memories/' + memKey] = memData;
+
+  database.update(updates);
+}
 
 interface Props {
   memory: any;
@@ -14,11 +37,11 @@ const Memory = (props: Props) => {
           title: "",
           description: "",
           image: "",
-          name: "Anonymous",
+          attribution: "Anonymous",
         }}
         onSubmit={async (values) => {
-          await new Promise((r) => setTimeout(r, 500));
           alert(JSON.stringify(values, null, 2));
+          addMemory(values['title'], values['description'], values['image'], values['attribution'])
         }}
       >
         <Form>
@@ -26,10 +49,11 @@ const Memory = (props: Props) => {
           <Field id="title" name="title" placeholder="Title" />
 
           <label htmlFor="description">Description</label>
-          <textarea
+          <Field
             id="description"
             name="description"
             placeholder="At this place I..."
+            component="textArea"
           />
 
           <label htmlFor="image">Image url</label>
@@ -40,7 +64,7 @@ const Memory = (props: Props) => {
           />
 
           <label htmlFor="name">Name</label>
-          <Field id="name" name="name" placeholder="Anonymous" />
+          <Field id="attribution" name="attribution" placeholder="Anonymous" />
 
           <button type="submit" className="button">
             Submit
