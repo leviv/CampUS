@@ -1,51 +1,60 @@
 import React from "react";
 import { Formik, Field, Form } from "formik";
 import { db } from "./services/firebase";
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 // Get a reference to the database service
 const database = db.ref();
-const memsRef = database.child('memories');
+const memsRef = database.child("memories");
 
 // uploads image if needed, adds to comm list if needed, posts memory
 // latlong = string (maybe lat, long)
-function addMemory(title: any, desc: any, image: any, attr: any) {
+function addMemory(lat, long, title, desc, image, attr) {
   var memKey = memsRef.push().key;
   var memData = {
+    lat: lat,
+    long: long,
     title: title,
     description: desc,
     image: image,
     attribution: attr,
-  }
+  };
 
   var updates = {};
-  updates['/memories/' + memKey] = memData;
+  updates["/memories/" + memKey] = memData;
 
   database.update(updates);
 }
 
-interface Props {
-  memory: any;
-}
-
-const Memory = (props: Props) => {
+const MemoryForm = (props) => {
   return (
     <div id="form" className="card">
-      <h1>Add a Memory</h1>
+      <h2>Add a Memory</h2>
+      <p>Drag the blue pin to mark the memory location</p>
+      <p>
+        Latitude: {props.coord.lat}
+        <br />
+        Longitude: {props.coord.lng}
+      </p>
       <Formik
         initialValues={{
           title: "",
           description: "",
           image: "",
-          attribution: "Anonymous",
+          attribution: "",
         }}
         onSubmit={async (values) => {
-          alert(JSON.stringify(values, null, 2));
-          addMemory(values['title'], values['description'], values['image'], values['attribution'])
+          addMemory(
+            props.coord.lat,
+            props.coord.lng,
+            values["title"],
+            values["description"],
+            values["image"],
+            values["attribution"]
+          );
         }}
       >
         <Form>
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title">Memory Name</label>
           <Field id="title" name="title" placeholder="Title" />
 
           <label htmlFor="description">Description</label>
@@ -53,7 +62,7 @@ const Memory = (props: Props) => {
             id="description"
             name="description"
             placeholder="At this place I..."
-            component="textArea"
+            component="textarea"
           />
 
           <label htmlFor="image">Image url</label>
@@ -75,4 +84,4 @@ const Memory = (props: Props) => {
   );
 };
 
-export default Memory;
+export default MemoryForm;

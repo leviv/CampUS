@@ -3,6 +3,7 @@ import { GoogleMap, Marker, MarkerClusterer } from "@react-google-maps/api";
 import Pin from "./Pin";
 import { db } from "./services/firebase";
 import pinkBeaver from "./assets/pinkBeaver.png";
+import blueBeaver from "./assets/blueBeaver.png";
 import mapStyles from "./Styles";
 import { setConstantValue } from "typescript";
 
@@ -10,8 +11,8 @@ import { setConstantValue } from "typescript";
 const database = db.ref();
 const memsRef = database.child("memories");
 
-const CampusMap = () => {
-  const initialCoord = { lat: 42.35898, lng: -71.093489 };
+const CampusMap = (props) => {
+  const initialCoord = props.coord;
 
   const [markers, setMarkers] = useState([]);
 
@@ -25,9 +26,18 @@ const CampusMap = () => {
             lat: parseFloat(memory["lat"]),
             lng: parseFloat(memory["long"]),
           };
-          markers.push(
-            <Marker position={coord} icon={pinkBeaver} draggable={true} />
-          );
+          if (!(memory.lat === 42.35898 && memory.lng !== -71.093489)) {
+            markers.push(
+              <Marker
+                position={coord}
+                icon={pinkBeaver}
+                draggable={false}
+                onClick={(e) => {
+                  getLatLongMemories(e.latLng.lat(), e.latLng.lng());
+                }}
+              />
+            );
+          }
         });
       })
       .then(() => {
@@ -36,6 +46,8 @@ const CampusMap = () => {
   }
 
   function getLatLongMemories(lat, long) {
+    console.log(lat);
+    console.log(long);
     var mems = [];
     memsRef.once("value", function (snapshot) {
       snapshot.forEach(function (child) {
@@ -44,6 +56,7 @@ const CampusMap = () => {
           mems.push(mem);
         }
       });
+      props.onMarkerClick(mems);
       return mems;
     });
   }
@@ -67,8 +80,16 @@ const CampusMap = () => {
       options={{ styles: mapStyles }}
     >
       {markers.map((marker, index) => (
-        <>{marker}</>
+        <div key={index}>{marker}</div>
       ))}
+      <Marker
+        position={initialCoord}
+        icon={blueBeaver}
+        draggable={true}
+        onDragEnd={(e) => {
+          props.onMarkerMove(e.latLng.lat(), e.latLng.lng());
+        }}
+      />
     </GoogleMap>
   );
 };

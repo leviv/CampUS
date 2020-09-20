@@ -1,5 +1,5 @@
 $primary-color: #917af0;
-$secondary-color: #a8ca99;
+$secondary-color: #81bef7;
 $third-color: #fff;
 
 /* =================
@@ -23,6 +23,7 @@ h6 {
 button.button {
   border-radius: 20px;
   bottom: 0px;
+  cursor: pointer;
   font-family: "Unica One", serif;
   font-size: 20px;
   height: 40px;
@@ -60,8 +61,21 @@ button.button {
 }
 
 .title {
-  padding: 15px;
+  padding: 40px;
   z-index: 1;
+
+  h1 {
+    margin-bottom: 3px !important;
+    font-size: 39px;
+    span {
+      color: $secondary-color;
+      text-decoration: underline;
+    }
+  }
+
+  p {
+    margin-top: 0 !important;
+  }
 }
 .container {
   display: flex;
@@ -85,6 +99,7 @@ button.button {
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
+    max-height: 100vh;
     justify-content: normal;
     overflow: scroll;
 
@@ -96,14 +111,18 @@ button.button {
       display: inline-block;
       align-self: center;
       align-content: flex-end;
+      background: $primary-color;
+      color: $third-color;
+      width: 100%;
+      text-align: center;
     }
   }
 }
 
 .card {
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   border-radius: 6px;
-  margin: 0 19px;
+  margin: 0 19px 40px 19px;
   padding: 10px 20px;
 }
 
@@ -111,12 +130,15 @@ button.button {
   input,
   textarea {
     display: block;
+    font-size: 18px;
     margin-bottom: 40px;
+    padding: 3px 6px;
     width: 100%;
   }
 
   label {
     font-family: "Unica One", serif;
+    font-size: 20px;
     display: block;
     margin-bottom: 5px;
     text-transform: uppercase;
@@ -125,5 +147,22 @@ button.button {
   h1,
   button {
     text-align: center;
+  }
+}
+
+.memory {
+  h3 {
+    font-size: 22px;
+    margin-bottom: 0 !important;
+  }
+
+  p.attr {
+    color: #888;
+    margin-top: 3px;
+    font-style: italic;
+  }
+
+  img {
+    width: 100%;
   }
 }
