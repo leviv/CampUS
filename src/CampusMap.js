@@ -13,10 +13,24 @@ function getMemories() {
   var mems = [];
   memsRef.once("value", function(snapshot) {
     snapshot.forEach(function(child) {
-      mems.push(child.val())
+      mems.push(child.val());
     });
     return mems;
   });
+}
+
+function getLatLongMemories(lat, long) {
+  var mems = [];
+  memsRef.once("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+      let mem = child.val();
+      if (mem.lat === lat && mem.long === long) {
+        mems.push(mem);
+      }
+    });
+    return mems;
+  });
+}
 }
 
 const CampusMap = () => {
