@@ -32,7 +32,7 @@ function App() {
             <h1>
               Camp<span>us</span>
             </h1>
-            <p>People make a college campus</p>
+            <p>Share your stories</p>
           </div>
 
           <h2>Click a pin to View memories</h2>
