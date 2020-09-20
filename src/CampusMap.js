@@ -1,7 +1,22 @@
 import React from "react";
 import { GoogleMap, Marker, MarkerClusterer } from "@react-google-maps/api";
 import Pin from "./Pin";
+import { db } from "./services/firebase";
 import pinkBeaver from "./assets/pinkBeaver.png";
+
+// Get a reference to the database service
+const database = db.ref();
+const memsRef = database.child('memories');
+
+function getMemories() {
+  var mems = [];
+  memsRef.once("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+      mems.push(child.val())
+    });
+    return mems;
+  });
+}
 
 const CampusMap = () => {
   const styles = [
