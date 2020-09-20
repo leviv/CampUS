@@ -60,9 +60,7 @@ button.button {
 }
 
 .title {
-  background: #fff;
   padding: 15px;
-  position: absolute;
   z-index: 1;
 }
 .container {
@@ -80,7 +78,6 @@ button.button {
 
   #map {
     flex: 2;
-    background: red;
   }
 
   #memories {
@@ -88,9 +85,17 @@ button.button {
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
+    justify-content: normal;
+    overflow: scroll;
 
     h2 {
       text-align: center;
+    }
+
+    footer {
+      display: inline-block;
+      align-self: center;
+      align-content: flex-end;
     }
   }
 }
