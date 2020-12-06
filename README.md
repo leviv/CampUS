@@ -2,13 +2,15 @@
 
 Not on campus? No problem! With COVID-19 keeping so many students and alumni from being on campus, we wanted to create a way for everyone to share their favorite memories and places from around school, to stay connected to the unique MIT community no matter where we are physically. Simply drop a beaver pin over the location of your memory, enter a title, description, and image, and save your memory to be viewed and enjoyed by everyone! In the future, we're looking to make CampUS fully customizable, including location and pin icon, so people from campuses besides MIT can also reminisce together!
 
-## Demo
+## Video Demo
 
-<iframe width="100%" height="597" src="https://www.youtube.com/embed/z5vwqGaSUv8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![CampUS demo (Streetview) video demo link](https://img.youtube.com/vi/z5vwqGaSUv8/0.jpg)](https://www.youtube.com/watch?v=z5vwqGaSUv8 "CampUS demo (Streetview)")
+
+(Click to be taken to the YouTube demo)
 
 ## Development
 
-###`npm install` or `yarn install`
+### `npm install` or `yarn install`
 
 Installs all needed dependencies for the project
 
